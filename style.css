@@ -11,9 +11,6 @@
 }
 
 body {
-    margin-right: 4%;
-    margin-left: 4%;
-
     background: var(--background);
     background-attachment: fixed;
     background-size: cover;
@@ -29,7 +26,7 @@ h1 {
 
     font-family: "Nunito", "Nunito Sans", sans-serif;
     font-optical-sizing: auto;
-    font-size: 128px;
+    font-size: 8em;
     font-weight: bold;
     font-style: normal;
     font-variation-settings:
@@ -53,22 +50,40 @@ button {
 
 #header {
     position: sticky;
-    top: 0px;
+    top: 0;
 }
 
 #title {
-    background: var(--text);
-    background-clip: text;
-    -webkit-text-fill-color: var(--text);
-    background-size: 200% 200%;
-    background-image: var(--title-gradient);
-    animation: Glow 60s ease 0s infinite;
+    color: var(--text);
 }
 
-#title:hover {
-    -webkit-text-fill-color: rgba(255, 255, 255, 0);
-    background-color: white;
+#title-shadow {
+    /*Animation*/
+    background: var(--text);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    background-image: var(--title-gradient);
+    background-color: var(--background);
+    animation: Glow 60s ease 0s infinite;
+
+    position: absolute;
+    height: fit-content;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    filter: blur(5px);
+    transition: filter 500ms ease;
 }
+
+#title:hover~#title-shadow {
+    filter: blur(10px);
+    transition: filter 500ms ease;
+}
+
 
 #introduction {
     display: flex;
@@ -82,6 +97,7 @@ button {
     color: var(--discrete-text);
     max-width: 25em;
     margin: 0;
+    transition: color 100ms ease;
 }
 
 #description:hover {
@@ -116,27 +132,35 @@ button {
     flex-wrap: wrap;
 
     margin-top: 15em;
+
+    margin-right: 3em;
+    margin-left: 3em;
+    transition: margin-right 50ms ease-out, margin-left 50ms ease-out;
 }
 
 .thumbnail {
     height: 25em;
-    margin-right: .5em;
-    margin-left: .5em;
-    margin-top: 1em;
-    margin-bottom: 1em;
 
     border: 1px hidden var(--discrete-text);
     border-radius: 15px;
 
     box-shadow: 0px 2px 0px rgba(135, 123, 166, 0.256), 1px 0px 0px rgba(99, 91, 119, 0.088);
+
+    margin-right: .5em;
+    margin-left: .5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+
+    scale: 1;
+    transition: all 100ms ease-out !important;
 }
 
 .thumbnail:hover {
-    height: 27em;
-    margin: 0em;
+    scale: 1.1;
     border-radius: 10px;
-    transition: height 50ms ease-out, margin 50ms ease-out, border 50ms ease-out;
+    transition: all 50ms ease-out;
 }
+
 
 @keyframes Glow {
     0% {
