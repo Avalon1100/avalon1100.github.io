@@ -26,7 +26,7 @@ h1 {
 
     font-family: "Nunito", "Nunito Sans", sans-serif;
     font-optical-sizing: auto;
-    font-size: 8em;
+    font-size: clamp(5em, 8vw, 8em);
     font-weight: bold;
     font-style: normal;
     font-variation-settings:
@@ -65,7 +65,7 @@ button {
     background-size: 200% 200%;
     background-image: var(--title-gradient);
     background-color: var(--background);
-    animation: Glow 60s ease 0s infinite;
+    animation: title-glow 60s ease 0s infinite;
 
     position: absolute;
     height: fit-content;
@@ -97,12 +97,12 @@ button {
     color: var(--discrete-text);
     max-width: 25em;
     margin: 0;
-    transition: color 100ms ease;
+    transition: color 200ms ease;
 }
 
 #description:hover {
     color: var(--text);
-    transition: color 50ms ease-out;
+    transition: color 100ms ease-out;
 }
 
 #description::selection {
@@ -110,19 +110,52 @@ button {
 }
 
 #labels {
-    border: 3px dashed var(--discrete-text);
-    border-radius: 20px;
-    padding: 2%;
-    padding-bottom: 1%;
-
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-evenly;
+
+    position: relative;
 }
 
-#labels:hover {
-    border-color: var(--text);
-    transition: border-color 50ms ease-out;
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+#labels::after,
+#labels::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+
+    padding: 0 .4em;
+    border-radius: 20px;
+
+    background: conic-gradient(from var(--angle), transparent,
+            var(--primary), transparent,
+            var(--accent), transparent,
+            var(--secondary), transparent);
+    transition: all 200ms ease;
+    animation: 20s labels-glow linear infinite;
+}
+
+#labels::after {
+    border: .15em, dashed, var(--discrete-text);
+    background: var(--background);
+    background-clip: padding-box;
+}
+
+#labels:hover::after {
+    border: .3em, dashed, var(--background);
+    transition: all 60ms ease-out;
+}
+
+#labels:hover::before {
+    scale: 1.015;
 }
 
 #gallery {
@@ -162,7 +195,7 @@ button {
 }
 
 
-@keyframes Glow {
+@keyframes title-glow {
     0% {
         background-position: 10% 0%
     }
@@ -173,5 +206,15 @@ button {
 
     100% {
         background-position: 10% 0%
+    }
+}
+
+@keyframes labels-glow {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
     }
 }
