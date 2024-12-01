@@ -1,19 +1,34 @@
 * {
     --text: #f3e5ff;
     --discrete-text: #bcb2c5;
-    --background: #010014;
+    --background: #01000c;
     --primary: #7876fe;
     --secondary: #ad018d;
     --accent: #fe2977;
+
+    --programming-label: #ad018d;
+    --3d-model-label: #7876fe;
+    --digital-art-label: #25B179;
+    --inactive-label: #636363;
+
     --title-gradient: linear-gradient(130deg, #f3e5ff, #7876fe 6%, #ad018d 45%, #fe2977 75%, #f3e5ff);
 
     color: var(--text);
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     background: var(--background);
     background-attachment: fixed;
     background-size: cover;
+    margin: 0
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 h1 {
@@ -42,10 +57,14 @@ p {
     font-style: normal;
 }
 
-button {
-    background-color: transparent;
-    border: 0;
-    padding: 5px;
+br::selection {
+    color: transparent
+}
+
+svg {
+    margin: 1em;
+    margin-left: .5em;
+    transition: all 300ms ease-out;
 }
 
 #header {
@@ -55,6 +74,10 @@ button {
 
 #title {
     color: var(--text);
+}
+
+#title::selection {
+    color: var(--accent);
 }
 
 #title-shadow {
@@ -79,6 +102,10 @@ button {
     transition: filter 500ms ease;
 }
 
+#title-shadow::selection {
+    background-color: var(--background);
+}
+
 #title:hover~#title-shadow {
     filter: blur(10px);
     transition: filter 500ms ease;
@@ -90,7 +117,7 @@ button {
     flex-wrap: wrap;
     justify-content: center;
 
-    gap: 6em;
+    gap: clamp(3em, 8vw, 8em);
 }
 
 #description {
@@ -109,23 +136,21 @@ button {
     color: var(--primary);
 }
 
-#labels {
+
+#labels-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    margin: 3em;
+    margin-top: 2em;
+    margin-bottom: 2em;
 
     position: relative;
 }
 
-@property --angle {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-}
-
-#labels::after,
-#labels::before {
+#labels-container::after,
+#labels-colored-border {
     content: '';
     position: absolute;
     height: 100%;
@@ -135,28 +160,93 @@ button {
     padding: 0 .4em;
     border-radius: 20px;
 
-    background: conic-gradient(from var(--angle), transparent,
-            var(--primary), transparent,
-            var(--accent), transparent,
-            var(--secondary), transparent);
-    transition: all 200ms ease;
-    animation: 20s labels-glow linear infinite;
+    background: conic-gradient(from var(--angle),
+            var(--programming-label-gradient-color),
+            var(--3d-model-label-gradient-color),
+            var(--digital-art-label-gradient-color),
+            var(--programming-label-gradient-color));
+    transition: all 1s ease;
+    animation: 3.5s labels-glow linear infinite;
 }
 
-#labels::after {
+#labels-container::after {
     border: .15em, dashed, var(--discrete-text);
     background: var(--background);
     background-clip: padding-box;
 }
 
-#labels:hover::after {
+#labels-container:hover::after {
     border: .3em, dashed, var(--background);
     transition: all 60ms ease-out;
 }
 
-#labels:hover::before {
+#labels-container:hover>#labels-colored-border {
     scale: 1.015;
 }
+
+#color-edge {
+    fill: var(--inactive-label);
+    transition: all 500ms ease;
+}
+
+#gradient {
+    margin-top: 2.5em;
+    transition: all 500ms ease
+}
+
+#gradient:hover {
+    margin-top: 0;
+
+    transition: all 500ms ease
+}
+
+#gradient-color {
+    position: absolute;
+    height: 100%;
+    width: 133%;
+    background: linear-gradient(90deg,
+            var(--3d-model-label-gradient-color),
+            var(--digital-art-label-gradient-color),
+            var(--programming-label-gradient-color),
+            var(--3d-model-label-gradient-color));
+    background-repeat: repeat-x;
+    animation: gradient-loop 5s linear infinite;
+    transition: all 500ms ease
+}
+
+#gradient::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    background: linear-gradient(var(--background) 5%, transparent 120%, var(--background));
+    transition: all 500ms ease
+}
+
+#scroll-down-icon {
+    position: absolute;
+    display: block;
+    z-index: 2;
+    right: 50vw;
+    left: 50vw;
+    translate: -50% 75%;
+    opacity: 0%;
+}
+
+#gradient:hover>#scroll-down-icon {
+    opacity: 60%;
+    transition: all 500ms ease;
+}
+
+#gradient>#scroll-down-icon>#arrow-down {
+    transition: all 500ms ease;
+}
+
+#gradient:hover>#scroll-down-icon>#arrow-down {
+    animation: arrow-move 3s ease-in-out infinite;
+}
+
 
 #gallery {
     display: flex;
@@ -217,4 +307,52 @@ button {
     to {
         --angle: 360deg;
     }
+}
+
+@keyframes gradient-loop {
+    from {
+        background-position: 0vw
+    }
+
+    to {
+        background-position: 133vw
+    }
+}
+
+@keyframes arrow-move {
+
+    from,
+    to {
+        translate: 0;
+        translate: 0 10%;
+    }
+
+    40% {
+        translate: 0;
+    }
+}
+
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@property --programming-label-gradient-color {
+    syntax: "<color>";
+    initial-value: #ad018d;
+    inherits: false;
+}
+
+@property --3d-model-label-gradient-color {
+    syntax: "<color>";
+    initial-value: #7876fe;
+    inherits: false;
+}
+
+@property --digital-art-label-gradient-color {
+    syntax: "<color>";
+    initial-value: #25B179;
+    inherits: false;
 }

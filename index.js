@@ -1,10 +1,87 @@
+const labels = Array.from(document.getElementsByClassName("label"))
+const gradient = document.getElementById("gradient")
 const thumbnails = Array.from(document.getElementsByClassName("thumbnail"))
+const searchTagActive = [false, false, false]
 
 function main() {
+  document.addEventListener("scroll", onScroll, { passive: true })
+
+  for (let i = 0; i < labels.length; i++) {
+    labels[i].onclick = () => onLabelClick(i)
+    labels[i].onmouseover = () => onLabelMouseOver(i)
+    labels[i].onmouseleave = () => onLabelMouseLeave(i)
+    onLabelClick(i)
+  }
   for (let i = 0; i < thumbnails.length; i++) {
     thumbnails[i].onmouseover = () => onThumbnailMouseOver(i)
     thumbnails[i].onmouseleave = () => onThumbnailMouseLeave(i)
   }
+  gradient.onclick = () => onGradientMouseClick()
+}
+
+function onScroll() {
+  const rect = gradient.getBoundingClientRect()
+  gradient.style.opacity = `${rect.bottom / 3.7}%`
+}
+
+function onLabelClick(index) {
+  const colorEdge = labels[index].querySelector("#color-edge")
+  const text = labels[index].querySelector("#text")
+
+  //Activate
+  if (!searchTagActive[index]) {
+    colorEdge.style.translate = "0"
+    colorEdge.style.fill = `var(--${labels[index].id})`
+    colorEdge.style.transition = "all 300ms ease"
+    labels[index].parentElement.style.marginLeft = ".5em"
+
+    text.style.fill = "var(--text)"
+    text.style.transition = "all 300ms ease"
+
+    searchTagActive[index] = true
+  }
+  //Deactivate
+  else {
+    colorEdge.style.translate = "10%"
+    colorEdge.style.fill = "var(--inactive-label)"
+    colorEdge.style.transition = "all 500ms ease"
+    labels[index].parentElement.style.marginLeft = "-.5em"
+
+    text.style.fill = "var(--discrete-text)"
+    text.style.transition = "all 500ms ease"
+
+    searchTagActive[index] = false
+  }
+  refreshLabelColoredBorder()
+}
+
+function onLabelMouseOver(index) {
+  if (searchTagActive[index]) {
+    const colorEdge = labels[index].querySelector("#color-edge")
+    colorEdge.style.translate = "-3%"
+    colorEdge.style.transition = "all 300ms ease-out"
+  } else {
+    const text = labels[index].querySelector("#text")
+    text.style.fill = "var(--text)"
+    text.style.transition = "all 300ms ease-out"
+  }
+}
+
+function onLabelMouseLeave(index) {
+  const colorEdge = labels[index].querySelector("#color-edge")
+  const text = labels[index].querySelector("#text")
+
+  if (searchTagActive[index]) {
+    colorEdge.style.translate = "0"
+    colorEdge.style.transition = "all 500ms ease"
+  } else {
+    text.style.fill = "var(--discrete-text)"
+    text.style.transition = "all 500ms ease"
+  }
+}
+
+function onGradientMouseClick() {
+  window.scrollBy(0, window.innerHeight)
 }
 
 function onThumbnailMouseOver(index) {
@@ -13,14 +90,14 @@ function onThumbnailMouseOver(index) {
   let leftSiblings = getLeftSiblings(index)
   for (let i = 0; i < leftSiblings.length; i++) {
     const falloff = sizeFactor / Math.pow(i + 1, 1.05)
-    leftSiblings[i].style.transform = "translateX(-" + falloff + "em)"
+    leftSiblings[i].style.transform = `translateX(-${falloff}em)`
     leftSiblings[i].style.transition = "transform 50ms ease-out"
   }
 
   let rightSiblings = getRightSiblings(index)
   for (let i = 0; i < rightSiblings.length; i++) {
     const falloff = sizeFactor / Math.pow(i + 1, 1.05)
-    rightSiblings[i].style.transform = "translateX(" + falloff + "em)"
+    rightSiblings[i].style.transform = `translateX(${falloff}em)`
     rightSiblings[i].style.transition = "transform 50ms ease-out"
   }
 }
@@ -34,6 +111,33 @@ function onThumbnailMouseLeave(index) {
     t.style.transform = "translateX(0)"
     t.style.transition = "transform 100ms ease-out"
   })
+}
+
+function refreshLabelColoredBorder() {
+  const labelsColoredBorder = document.getElementById("labels-colored-border")
+  const gradientColor = document.getElementById("gradient-color")
+
+  const colors = Array(labels.length)
+  for (let i = 0; i < labels.length; i++) {
+    if (searchTagActive[i]) colors[i] = `var(--${labels[i].id})`
+    else colors[i] = "transparent"
+
+    labelsColoredBorder.style.setProperty(
+      `--${labels[i].id}-gradient-color`,
+      colors[i]
+    )
+    gradientColor.style.setProperty(
+      `--${labels[i].id}-gradient-color`,
+      colors[i]
+    )
+  }
+
+  const transition = `--programming-label-gradient-color 500ms ease,
+        --3d-model-label-gradient-color 500ms ease,
+        --digital-art-label-gradient-color 500ms ease`
+
+  labelsColoredBorder.style.transition = transition
+  gradientColor.style.transition = transition
 }
 
 function getLeftSiblings(index) {
@@ -79,4 +183,5 @@ function hasRightSibling(index) {
       400
   )
 }
+
 main()
