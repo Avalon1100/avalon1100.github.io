@@ -190,20 +190,18 @@ svg {
 }
 
 #gradient {
-    margin-top: 2.5em;
-    transition: all 500ms ease
+    margin-top: 2em;
+    transition: margin 500ms ease
 }
 
 #gradient:hover {
     margin-top: 0;
-
-    transition: all 500ms ease
 }
 
 #gradient-color {
     position: absolute;
     height: 100%;
-    width: 133%;
+    width: 100%;
     background: linear-gradient(90deg,
             var(--3d-model-label-gradient-color),
             var(--digital-art-label-gradient-color),
@@ -220,7 +218,7 @@ svg {
     height: 100%;
     width: 100%;
 
-    background: linear-gradient(var(--background) 5%, transparent 120%, var(--background));
+    background: linear-gradient(var(--background) 1%, transparent 70%, var(--background));
     transition: all 500ms ease
 }
 
@@ -315,7 +313,7 @@ svg {
     }
 
     to {
-        background-position: 133vw
+        background-position: 100vw
     }
 }
 

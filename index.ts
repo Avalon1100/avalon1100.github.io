@@ -4,7 +4,7 @@ const thumbnails = Array.from(document.getElementsByClassName("thumbnail")) as H
 const searchTagActive = [false, false, false]
 
 function main() {
-    document.addEventListener("scroll", onScroll, {passive: true})
+    window.addEventListener("scroll", onScroll, {passive: true})
 
     for (let i = 0; i < labels.length; i++) {
         labels[i].onclick = () => onLabelClick(i)
@@ -21,7 +21,7 @@ function main() {
 
 function onScroll() {
     const rect = gradient.getBoundingClientRect()
-    gradient.style.opacity = `${rect.bottom / 3.7}%`
+    gradient.style.opacity = `${(rect.bottom / 10) + 1}%`
 }
 
 function onLabelClick(index : number) {
@@ -84,7 +84,8 @@ function onLabelMouseLeave(index : number) {
 }
 
 function onGradientMouseClick() {
-    window.scrollBy(0, window.innerHeight)
+    if (gradient.style.opacity > "0.5")
+        window.scrollBy(0, window.innerHeight)
 }
 
 function onThumbnailMouseOver(index: number) {
@@ -176,5 +177,16 @@ function hasRightSibling(index: number) : boolean {
     return thumbnails[index + 1].getBoundingClientRect().x > thumbnails[index].getBoundingClientRect().x
     && thumbnails[index + 1].getBoundingClientRect().y - thumbnails[index].getBoundingClientRect().y < 400
 } 
+
+function throttle(func: Function, timeFrame: number) {
+    let lastTime : Date = new Date(0);
+    return () => {
+        const now = new Date();
+        if ((now.getSeconds() - lastTime.getSeconds()) >= timeFrame) {
+            func();
+            lastTime = now;
+        }
+    };
+}
 
 main()
