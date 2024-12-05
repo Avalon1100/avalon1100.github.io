@@ -4,8 +4,9 @@ const thumbnails = Array.from(document.getElementsByClassName("thumbnail"))
 const searchTagActive = [false, false, false]
 
 function main() {
-  window.addEventListener("scroll", onScroll, {passive: true})
-
+  window.addEventListener("scroll", onScroll, { passive: true })
+  //Set initial opacity
+  onScroll()
 
   for (let i = 0; i < labels.length; i++) {
     labels[i].onclick = () => onLabelClick(i)
@@ -22,7 +23,7 @@ function main() {
 
 function onScroll() {
   const rect = gradient.getBoundingClientRect()
-  gradient.style.opacity = `${rect.bottom / 10 +1}%`
+  gradient.style.opacity = `${rect.bottom / 10 + 1}%`
 }
 
 function onLabelClick(index) {
@@ -82,8 +83,7 @@ function onLabelMouseLeave(index) {
 }
 
 function onGradientMouseClick() {
-  if (gradient.style.opacity > "0.5")
-  window.scrollBy(0, window.innerHeight)
+  if (gradient.style.opacity > "0.5") window.scrollBy(0, window.innerHeight)
 }
 
 function onThumbnailMouseOver(index) {

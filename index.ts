@@ -5,6 +5,8 @@ const searchTagActive = [false, false, false]
 
 function main() {
     window.addEventListener("scroll", onScroll, {passive: true})
+    //Set initial opacity
+    onScroll();
 
     for (let i = 0; i < labels.length; i++) {
         labels[i].onclick = () => onLabelClick(i)
