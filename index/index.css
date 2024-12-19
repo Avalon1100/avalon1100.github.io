@@ -1,0 +1,305 @@
+svg {
+    margin: 1em;
+    margin-left: .5em;
+    transition: all 300ms ease-out;
+}
+
+#header {
+    position: sticky;
+    top: 0;
+}
+
+#title {
+    margin: 5%;
+}
+
+#title-shadow {
+    /*Animation*/
+    background: var(--text);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    background-image: var(--title-gradient);
+    background-color: var(--background);
+    animation: title-glow 60s ease 0s infinite;
+
+    margin: 5%;
+    position: absolute;
+    height: fit-content;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    filter: blur(5px);
+    transition: filter 500ms ease;
+}
+
+#title-shadow::selection {
+    background-color: var(--background);
+}
+
+#title:hover~#title-shadow {
+    filter: blur(10px);
+    transition: filter 500ms ease;
+}
+
+
+#introduction {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    gap: clamp(3em, 8vw, 8em);
+}
+
+#description {
+    max-width: 25em;
+    margin: 0;
+}
+
+
+#filters {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+}
+
+#filter-text {
+    margin: 0;
+    margin-left: 2.5em;
+    margin-bottom: .2em;
+    z-index: -1;
+
+    translate: 0;
+    opacity: 100%;
+    transition: all 500ms ease;
+}
+
+#filter-text:has(~#labels-container:hover) {
+    translate: 0 50%;
+    opacity: 0%;
+    transition: all 150ms ease-out;
+}
+
+#labels-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-grow: 1;
+
+    margin: 3em;
+    margin-bottom: 2em;
+    margin-top: 0;
+
+    position: relative;
+}
+
+#labels-container::after,
+#labels-colored-border {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+
+    padding: 0 .4em;
+    border-radius: 20px;
+
+    background: conic-gradient(from var(--angle),
+            var(--programming-label-gradient-color),
+            var(--3d-model-label-gradient-color),
+            var(--digital-art-label-gradient-color),
+            var(--programming-label-gradient-color));
+    transition: all 1s ease;
+    animation: 3.5s labels-glow linear infinite;
+}
+
+#labels-container::after {
+    border: .15em, dashed, var(--discrete-text);
+    background: var(--background);
+    background-clip: padding-box;
+}
+
+#labels-container:hover::after {
+    border: .3em, dashed, var(--background);
+    transition: all 60ms ease-out;
+}
+
+#labels-container:hover>#labels-colored-border {
+    scale: 1.015;
+}
+
+#color-edge {
+    fill: var(--inactive-label);
+    transition: all 500ms ease;
+}
+
+#gradient {
+    margin-top: 2em;
+    transition: margin 500ms ease
+}
+
+#gradient:hover {
+    margin-top: 0;
+}
+
+#gradient-color {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg,
+            var(--3d-model-label-gradient-color),
+            var(--digital-art-label-gradient-color),
+            var(--programming-label-gradient-color),
+            var(--3d-model-label-gradient-color));
+    background-repeat: repeat-x;
+    animation: gradient-loop 5s linear infinite;
+    transition: all 500ms ease
+}
+
+#gradient::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    background: linear-gradient(var(--background) 1%, transparent 70%, var(--background));
+    transition: all 500ms ease
+}
+
+#scroll-down-icon {
+    position: absolute;
+    display: block;
+    z-index: 2;
+    right: 50vw;
+    left: 50vw;
+    translate: -50% 75%;
+    opacity: 0%;
+}
+
+#gradient:hover>#scroll-down-icon {
+    opacity: 60%;
+    transition: all 500ms ease;
+}
+
+#gradient>#scroll-down-icon>#arrow-down {
+    transition: all 500ms ease;
+}
+
+#gradient:hover>#scroll-down-icon>#arrow-down {
+    animation: arrow-move 3s ease-in-out infinite;
+}
+
+
+#gallery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin-top: 15em;
+
+    margin-right: 3em;
+    margin-left: 3em;
+    transition: margin-right 50ms ease-out, margin-left 50ms ease-out;
+}
+
+.thumbnail {
+    height: 25em;
+
+    border: 1px hidden var(--discrete-text);
+    border-radius: 15px;
+
+    box-shadow: 0px 2px 0px rgba(135, 123, 166, 0.256), 1px 0px 0px rgba(99, 91, 119, 0.088);
+
+    margin-right: .5em;
+    margin-left: .5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+
+    scale: 1;
+    transition: all 100ms ease-out !important;
+}
+
+.thumbnail:hover {
+    scale: 1.1;
+    border-radius: 10px;
+    transition: all 50ms ease-out;
+}
+
+
+@keyframes title-glow {
+    0% {
+        background-position: 10% 0%
+    }
+
+    50% {
+        background-position: 91% 100%
+    }
+
+    100% {
+        background-position: 10% 0%
+    }
+}
+
+@keyframes labels-glow {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
+    }
+}
+
+@keyframes gradient-loop {
+    from {
+        background-position: 0vw
+    }
+
+    to {
+        background-position: 100vw
+    }
+}
+
+@keyframes arrow-move {
+
+    from,
+    to {
+        translate: 0;
+        translate: 0 10%;
+    }
+
+    40% {
+        translate: 0;
+    }
+}
+
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@property --programming-label-gradient-color {
+    syntax: "<color>";
+    initial-value: #ad018d;
+    inherits: false;
+}
+
+@property --3d-model-label-gradient-color {
+    syntax: "<color>";
+    initial-value: #7876fe;
+    inherits: false;
+}
+
+@property --digital-art-label-gradient-color {
+    syntax: "<color>";
+    initial-value: #25B179;
+    inherits: false;
+}
