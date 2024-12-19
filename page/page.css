@@ -10,6 +10,7 @@ body {
 
 #title {
     font-size: 110px;
+    font-size: clamp(3rem, 12vw, 7rem);
     margin: 5vh;
 }
 
