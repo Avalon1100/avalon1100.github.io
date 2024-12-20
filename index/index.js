@@ -235,10 +235,10 @@ function getRightSiblings(index) {
 function hasLeftSibling(index) {
   if (!thumbnails[index - 1]) return false
   return (
-    thumbnails[index - 1].getBoundingClientRect().x <
-    thumbnails[index].getBoundingClientRect().x &&
-    thumbnails[index].getBoundingClientRect().y -
-    thumbnails[index - 1].getBoundingClientRect().y <
+    thumbnails[index - 1].getBoundingClientRect().right <
+    thumbnails[index].getBoundingClientRect().left &&
+    thumbnails[index].getBoundingClientRect().bottom -
+    thumbnails[index - 1].getBoundingClientRect().bottom <
     400
   )
 }
@@ -252,17 +252,6 @@ function hasRightSibling(index) {
     thumbnails[index].getBoundingClientRect().y <
     400
   )
-}
-
-function throttle(func, timeFrame) {
-  let lastTime = new Date(0)
-  return () => {
-    const now = new Date()
-    if (now.getSeconds() - lastTime.getSeconds() >= timeFrame) {
-      func()
-      lastTime = now
-    }
-  }
 }
 
 main()

@@ -230,8 +230,8 @@ function getRightSiblings(index: number): HTMLImageElement[] {
 function hasLeftSibling(index: number): boolean {
     if (!thumbnails[index - 1])
         return false;
-    return thumbnails[index - 1].getBoundingClientRect().x < thumbnails[index].getBoundingClientRect().x
-        && thumbnails[index].getBoundingClientRect().y - thumbnails[index - 1].getBoundingClientRect().y < 400
+    return thumbnails[index - 1].getBoundingClientRect().right < thumbnails[index].getBoundingClientRect().left
+        && thumbnails[index].getBoundingClientRect().bottom - thumbnails[index - 1].getBoundingClientRect().bottom < 400
 }
 
 function hasRightSibling(index: number): boolean {
@@ -239,17 +239,6 @@ function hasRightSibling(index: number): boolean {
         return false;
     return thumbnails[index + 1].getBoundingClientRect().x > thumbnails[index].getBoundingClientRect().x
         && thumbnails[index + 1].getBoundingClientRect().y - thumbnails[index].getBoundingClientRect().y < 400
-}
-
-function throttle(func: Function, timeFrame: number) {
-    let lastTime: Date = new Date(0);
-    return () => {
-        const now = new Date();
-        if ((now.getSeconds() - lastTime.getSeconds()) >= timeFrame) {
-            func();
-            lastTime = now;
-        }
-    };
 }
 
 interface ProjectLabels {
