@@ -127,6 +127,7 @@ async function addLabelsToThumbnail(thumbnailIndex: number) {
 
 function updateLabelCount(thumbnailIndex: number, labelIndex: number) {
     const labelCount = Number(thumbnails[thumbnailIndex].dataset.labelCount)
+
     if (searchTagActive[labelIndex])
         thumbnails[thumbnailIndex].dataset.labelCount = `${labelCount + 1}`
     else
@@ -138,20 +139,16 @@ function updateLabelCount(thumbnailIndex: number, labelIndex: number) {
         showThumbnail(thumbnailIndex)
 }
 
-function hideThumbnail(index: number) {
-    thumbnails[index].style.display = "none"
-}
-
-function showThumbnail(index: number) {
-    thumbnails[index].style.display = "block"
-}
-
 function onThumbnailClick(index: number) {
     const project = thumbnails[index].id
     window.open(`/page/page.html?p=${project}`)
 }
 
 function onThumbnailMouseOver(index: number) {
+    //window width < 70em
+    if (window.innerWidth < 1120)
+        return
+
     const sizeFactor = thumbnails[index].width / 400;
 
     let leftSiblings = getLeftSiblings(index)
@@ -170,6 +167,9 @@ function onThumbnailMouseOver(index: number) {
 }
 
 function onThumbnailMouseLeave(index: number) {
+    if (window.innerWidth < 1120)
+        return
+
     getLeftSiblings(index).forEach(t => {
         t.style.transform = "translateX(0)"
         t.style.transition = "transform 100ms ease-out"
@@ -195,12 +195,21 @@ function refreshLabelColoredBorder() {
         gradientColor.style.setProperty(`--${labels[i].id}-gradient-color`, colors[i])
     }
 
-    const transition = `--programming-label-gradient-color 500ms ease,
+    const transition =
+        `--programming-label-gradient-color 500ms ease,
         --3d-model-label-gradient-color 500ms ease,
         --digital-art-label-gradient-color 500ms ease`
 
     labelsColoredBorder.style.transition = transition
     gradientColor.style.transition = transition
+}
+
+function hideThumbnail(index: number) {
+    thumbnails[index].style.display = "none"
+}
+
+function showThumbnail(index: number) {
+    thumbnails[index].style.display = "block"
 }
 
 function getLeftSiblings(index: number): HTMLImageElement[] {

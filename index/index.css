@@ -159,12 +159,12 @@ svg {
 }
 
 #gradient {
-    margin-top: 2em;
-    transition: margin 500ms ease
+    padding-top: 2em;
+    transition: all 500ms ease
 }
 
 #gradient:hover {
-    margin-top: 0;
+    padding: 0;
 }
 
 #gradient-color {
@@ -201,9 +201,11 @@ svg {
     opacity: 0%;
 }
 
-#gradient:hover>#scroll-down-icon {
-    opacity: 60%;
-    transition: all 500ms ease;
+@media (min-width: 70em) {
+    #gradient:hover>#scroll-down-icon {
+        opacity: 60%;
+        transition: all 500ms ease;
+    }
 }
 
 #gradient>#scroll-down-icon>#arrow-down {
@@ -214,6 +216,9 @@ svg {
     animation: arrow-move 3s ease-in-out infinite;
 }
 
+#gradient:hover+#gallery {
+    padding-top: 2em;
+}
 
 #gallery {
     display: flex;
@@ -221,9 +226,10 @@ svg {
     align-items: center;
     flex-wrap: wrap;
 
+    padding-top: 0em;
     margin: 5vw;
 
-    transition: margin-right 50ms ease-out, margin-left 50ms ease-out;
+    transition: margin-inline 50ms ease-out, padding 500ms ease;
 }
 
 @media (min-width: 70em) {
@@ -236,7 +242,7 @@ svg {
     max-height: 25em;
     max-width: 100%;
 
-    border: 1px hidden var(--discrete-text);
+    border: 3px hidden var(--discrete-text);
     border-radius: 15px;
 
     box-shadow: 0px 2px 0px rgba(135, 123, 166, 0.256), 1px 0px 0px rgba(99, 91, 119, 0.088);
