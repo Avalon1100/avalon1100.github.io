@@ -34,7 +34,6 @@
     transition: filter 500ms ease;
 }
 
-
 #introduction {
     display: flex;
     flex-wrap: wrap;
@@ -123,16 +122,17 @@
     }
 }
 
-
-
 #labels-container::after {
-    border: .15em, dashed, var(--discrete-text);
     background: var(--background);
     background-clip: padding-box;
+    border: .15em dashed;
+    border-color: var(--discrete-text);
 }
 
 #labels-container:hover::after {
-    border: .3em, dashed, var(--background);
+    border-width: .19em;
+    border-style: dashed;
+    border-color: var(--background);
     transition: all 60ms ease-out;
 }
 

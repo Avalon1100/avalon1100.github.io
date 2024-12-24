@@ -63,11 +63,16 @@ body {
     border-radius: 20px;
 }
 
-
 #description {
-    display: flex;
     text-align: justify;
+    white-space: break-spaces;
     max-height: 100%;
+}
+
+@-moz-document url-prefix() {
+    #description {
+        margin-right: .5em;
+    }
 }
 
 #labels {
