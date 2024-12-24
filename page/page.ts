@@ -36,7 +36,7 @@ async function loadLabels() {
 
 function applyTags(text: string): string {
     //Paragraphs
-    text = text.replace(/\n, g/, "<br><br>")
+    text = text.replace(/\n/g, "<br><br>")
     const subsString = text.match(/<c (.*?)<\/c>/g)
     subsString?.forEach(s => {
         const color = s.slice(3, s.indexOf('>'))
